@@ -120,6 +120,11 @@ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- imx_alientek_emmc_defconfig
 make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- -j$(nproc)
 ```
 
-
+## raspberry pi 
+### mirror source 
+```bash
+sudo sed 's/deb.debian.org/mirrors.aliyun.com/g' /etc/apt/sources.list -i
+sudo apt update
+```
 
 
