@@ -1,0 +1,30 @@
+DTO_NAME := myled3
+DTO_DIR := /boot/firmware
+obj-y += $(DTO_NAME).dtbo
+
+CONFIG_FILE := $(DTO_DIR)/config.txt
+DTOVERLAY_LINE := dtoverlay=$(DTO_NAME)
+
+# 检查 config.txt 中是否已经存在 dtoverlay 行
+CHECK_CMD = grep -q -F "$(DTOVERLAY_LINE)" "$(CONFIG_FILE)"
+
+# 如果不存在，则添加
+ADD_CMD = echo "$(DTOVERLAY_LINE)" >> "$(CONFIG_FILE)"
+
+
+all: dt
+        echo Builded Device Tree Overlay and kernel module
+
+dt: $(DTO_NAME).dts
+        dtc -I dts $(DTO_NAME).dts -o $(DTO_NAME).dtbo 
+        # dtc -@ -I dts -O dtb -o $(DTO_NAME).dtbo $(DTO_NAME).dts
+install: all
+        install -D $(DTO_NAME).dtbo $(DTO_DIR)/$(DTO_NAME).dtbo
+        @if ! $(CHECK_CMD); then \
+                echo "Adding $(DTOVERLAY_LINE) to $(CONFIG_FILE)"; \
+                $(ADD_CMD); \
+        else \
+                echo "$(DTOVERLAY_LINE) already exists in $(CONFIG_FILE)"; \
+        fi
+clean:
+        rm -rf $(DTO_NAME).dtbo

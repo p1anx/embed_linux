@@ -1,4 +1,3 @@
-
 # embed_linux
 
 # Install cross compile toolchain
@@ -157,35 +156,5 @@ sudo mknod /dev/hello0 c 508 0 (create major and minor)
 
 
 
-## Makefile
-### cross compile
-```Makefile
-    KERNEL_DIR=../ebf-buster-linux/build_image/build
-    ARCH=arm
-    CROSS_COMPILE=arm-linux-gnueabihf-
-    export  ARCH  CROSS_COMPILE
 
-    obj-m := led_cdev.o
-    out =  led_cdev_test
 
-    all:
-            $(MAKE) -C $(KERNEL_DIR) M=$(CURDIR) modules
-            $(CROSS_COMPILE)gcc -o $(out) led_test.c
-
-    .PHONE:clean copy
-
-    clean:
-            $(MAKE) -C $(KERNEL_DIR) M=$(CURDIR) clean
-            rm $(out)
-```
-
-### natively compile
-```Makefile
-obj-m += mod_auto_cdev.o
-
-all:
-        make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
-clean:
-        make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
-
-```
