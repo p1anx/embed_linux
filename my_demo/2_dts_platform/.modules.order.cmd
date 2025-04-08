@@ -1,0 +1,1 @@
+savedcmd_/home/xwj/0_code/linux-rpi/linux_driver1/2_dts_platform/modules.order := {   echo /home/xwj/0_code/linux-rpi/linux_driver1/2_dts_platform/dts_platform.o; :; } > /home/xwj/0_code/linux-rpi/linux_driver1/2_dts_platform/modules.order

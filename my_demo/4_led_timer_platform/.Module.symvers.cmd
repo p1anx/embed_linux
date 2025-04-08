@@ -1,0 +1,1 @@
+savedcmd_/home/xwj/0_code/linux-rpi/linux_driver1/4_led_timer_platform/Module.symvers :=  scripts/mod/modpost -M -m -a      -o /home/xwj/0_code/linux-rpi/linux_driver1/4_led_timer_platform/Module.symvers -T /home/xwj/0_code/linux-rpi/linux_driver1/4_led_timer_platform/modules.order -i Module.symvers -e 

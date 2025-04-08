@@ -1,0 +1,1 @@
+savedcmd_/home/xwj/0_code/linux-rpi/linux_driver1/2_dts_platform/dts_platform.mod := printf '%s\n'   dts_platform.o | awk '!x[$$0]++ { print("/home/xwj/0_code/linux-rpi/linux_driver1/2_dts_platform/"$$0) }' > /home/xwj/0_code/linux-rpi/linux_driver1/2_dts_platform/dts_platform.mod

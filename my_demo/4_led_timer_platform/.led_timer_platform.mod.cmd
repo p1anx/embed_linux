@@ -1,0 +1,1 @@
+savedcmd_/home/xwj/0_code/linux-rpi/linux_driver1/4_led_timer_platform/led_timer_platform.mod := printf '%s\n'   led_timer_platform.o | awk '!x[$$0]++ { print("/home/xwj/0_code/linux-rpi/linux_driver1/4_led_timer_platform/"$$0) }' > /home/xwj/0_code/linux-rpi/linux_driver1/4_led_timer_platform/led_timer_platform.mod

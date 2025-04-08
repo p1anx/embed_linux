@@ -1,0 +1,16 @@
+/dts-v1/;
+/plugin/;
+
+/ {
+  fragment@0 {
+    target-path = "/";
+    __overlay__ {
+      led_gpio_21{
+        compatible = "led_gpio_21";
+        pinctrl-names = "default";
+        gpios = <&rp1_gpio 21 0>;
+        status = "okay";
+      };
+    };
+  };
+};
