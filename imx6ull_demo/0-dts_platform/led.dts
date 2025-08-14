@@ -1,0 +1,57 @@
+/ {
+   model = "Freescale i.MX6 ULL 14x14 EVK Board";
+   compatible = "fsl,imx6ull-14x14-evk", "fsl,imx6ull";
+	leds {
+		compatible = "gpio-leds";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_gpio_leds
+			     &pinctrl_beep>;
+
+		led1{
+			label = "sys-led";
+      // 1. 
+      // important!!!!!!!!!!!!!!!!!!!!!!
+      //
+			// gpios = <&gpio1 3 GPIO_ACTIVE_LOW>;  //remove this
+      //
+      // important!!!!!!!!!!!!!!!!!!!!!!
+			linux,default-trigger = "heartbeat";
+			default-state = "on";
+		};
+
+		beep{
+			label = "beep";
+			gpios = <&gpio5 1 GPIO_ACTIVE_LOW>;
+			default-state = "off";
+		};
+	};
+  // 2.
+  /* add the content */
+  gpioled: gpioled0{
+    #address-cells = <1>;
+    #size-cells = <1>;
+    compatible = "gpio-led";
+    pinctrl-names = "default";
+    pinctrl-0 = <&pinctrl_led>;
+    led-gpio = <&gpio1 3 GPIO_ACTIVE_LOW>;
+    status = "okay";
+  };
+}
+
+&iomuxc {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_hog_1>;
+	imx6ul-evk {
+    //3. 
+    //=================== add the following content=====================
+		pinctrl_led: ledgrp{
+			fsl,pins = <MX6UL_PAD_GPIO1_IO03__GPIO1_IO03 0x10B0>;
+		};
+		pinctrl_gpio_leds: gpio-leds {
+      // 4.
+      /* remove this */
+			fsl,pins = <
+				/* MX6UL_PAD_GPIO1_IO03__GPIO1_IO03	0x17059*/
+			>;
+		};
+}
