@@ -1,0 +1,48 @@
+
+/ {
+   model = "Freescale i.MX6 ULL 14x14 EVK Board";
+   compatible = "fsl,imx6ull-14x14-evk", "fsl,imx6ull";
+   /* 1. add the content*/
+   key {
+
+        #address-cells = <1>;
+        #size-cells = <1>;
+        compatible = "atkalpha-key";
+        pinctrl-names = "default";
+        pinctrl-0 = <&pinctrl_key>;
+        key-gpio = <&gpio1 18 GPIO_ACTIVE_LOW>; /* KEY0 */
+        interrupt-parent = <&gpio1>;
+        interrupts = <18 IRQ_TYPE_EDGE_BOTH>;   /* FALLING RISING */
+        status = "okay";
+  };
+   /* 2. remove the content*/
+	gpio_keys: gpio_keys@0 {
+		compatible = "gpio-keys";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_gpio_keys>;
+		#address-cells = <1>;
+		#size-cells = <0>;
+		autorepeat;
+
+		key1@1 {
+			label = "USER-KEY1";
+			linux,code = <114>;
+			// gpios = <&gpio1 18 GPIO_ACTIVE_LOW>;
+			gpio-key,wakeup;
+      };
+    };
+
+}
+
+&iomuxc {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_hog_1>;
+	imx6ul-evk {
+    //3. 
+    //=================== add the following content=====================
+		pinctrl_key: keygrp{
+			fsl,pins = <
+          MX6UL_PAD_UART1_CTS_B__GPIO1_IO18 0xF080 /* KEY0 */
+      >;
+		};
+}
