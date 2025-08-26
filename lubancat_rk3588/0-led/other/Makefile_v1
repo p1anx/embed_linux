@@ -1,0 +1,22 @@
+MODULE_NAME := led
+OVERLAY_NAME := $(MODULE_NAME)
+obj-m :=$(MODULE_NAME).o
+KERNEL_DIR := /home/rk/lubancat_sdk/kernel-5.10
+INSTALL_TO_REMOTE_DIR := root@192.168.1.140:/lib/modules/5.10.209-rk3588/
+
+
+ARCH=arm64
+CROSS_COMPILE=aarch64-none-linux-gnu-
+export ARCH CROSS_COMPILE
+CURRENT_PATH := $(shell pwd)
+
+build: kernel_modules
+
+kernel_modules:
+        $(MAKE)  -C $(KERNEL_DIR) M=$(CURRENT_PATH) modules
+install:
+        sudo rsync -av $(MODULE_NAME).ko $(INSTALL_TO_REMOTE_DIR)
+dtbo:
+	dtc -@ -I dts -o dtb -o $(OVERLAY_NAME).dtbo $(OVERLAY_NAME).dts
+clean:
+        $(MAKE)  -C $(KERNEL_DIR) M=$(CURRENT_PATH) clean

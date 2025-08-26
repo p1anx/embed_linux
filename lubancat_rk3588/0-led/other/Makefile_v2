@@ -1,0 +1,30 @@
+MODULE_NAME := led
+OVERLAY_NAME := $(MODULE_NAME)
+HOST_IP := root@192.168.1.140
+KERNEL_DIR := /home/rk/lubancat_sdk/kernel-5.10
+KERNEL_VERSION := 5.10.209-rk3588
+
+ARCH=arm64
+CROSS_COMPILE=aarch64-none-linux-gnu-
+export ARCH CROSS_COMPILE
+
+obj-m :=$(MODULE_NAME).o
+INSTALL_TO_MODULE_DIR := $(HOST_IP):/lib/modules/$(KERNEL_VERSION)/
+INSTALL_TO_OVERLAY_DIR := $(HOST_IP):/boot/dtb/overlay/
+INSTALL_TO_UENV_TXT_DIR := $(HOST_IP):/boot/uEnv/
+CURRENT_PATH := $(shell pwd)
+
+build: kernel_modules
+
+kernel_modules:
+        $(MAKE)  -C $(KERNEL_DIR) M=$(CURRENT_PATH) modules
+install:
+        sudo rsync -av $(MODULE_NAME).ko $(INSTALL_TO_MODULE_DIR)
+install_dtbo:
+        sudo rsync -av $(OVERLAY_NAME).dtbo $(INSTALL_TO_OVERLAY_DIR)
+        sudo rsync -av uEnv.txt $(INSTALL_TO_UENV_TXT_DIR)
+dtbo:
+        dtc -@ -I dts -o dtb -o $(OVERLAY_NAME).dtbo $(OVERLAY_NAME).dts
+clean:
+        $(MAKE)  -C $(KERNEL_DIR) M=$(CURRENT_PATH) clean
+

@@ -1,0 +1,19 @@
+/dts-v1/;
+/plugin/;
+
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/pinctrl/rockchip.h>
+/ {
+  fragment@0 {
+    target-path = "/";
+    __overlay__ {
+      led_0{
+        compatible = "led_0";
+        pinctrl-names = "default";
+        gpios = <&gpio6 RK_PA2 GPIO_ACTIVE_LOW>; // GPIO6_A2
+        status = "okay";
+      };
+    };
+  };
+};
+
