@@ -28,3 +28,25 @@ cpp -nostdinc -I /home/rk/lubancat_sdk/kernel-5.10/include \
 dtc -@ -I dts -O dtb -o input_key.dtbo input_key_preprocessed.dts
 
 ```
+
+### issues
+#### 1
+- GPIO6_A3 is used as input_button, it will show error for overlay
+
+## rk_init
+### rk_sys_init
+```bash
+#!/bin/bash
+function rk_init() {
+  apt update -y
+  apt install vim git rsync fish -y
+  sed -i "s/#PermitRootLogin prohibit-password/PermitRootLogin yes/g" /etc/ssh/sshd_config
+  /etc/init.d/ssh restart
+
+}
+rk_init
+
+```
+
+## pwm 
+pwm doesn't need app
