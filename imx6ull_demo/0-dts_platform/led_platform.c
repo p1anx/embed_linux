@@ -9,6 +9,7 @@
 #include <linux/uaccess.h>
 
 #include <linux/platform_device.h>
+#include <linux/version.h>
 
 #define CDEV_NAME "dev_led_gpio" // `/dev/dev_led_gpio`
 #define CDEV_CNT 1
@@ -128,10 +129,19 @@ static int led_probe(struct platform_device *pdev) {
   return 0;
 }
 // note : `void` type of the `remove` function
+#if LINUX_VERSION_CODE < KERNEL_VERSION(4, 0, 0)
 static void led_remove(struct platform_device *pdev) {
   printk("platform is removed \n");
   led_dev_exit();
+  return 0;
 }
+#else
+static int led_remove(struct platform_device *pdev) {
+  printk("platform is removed \n");
+  led_dev_exit();
+  return 0;
+}
+#endif
 
 static const struct of_device_id of_match_led[] = {
     {.compatible = DTS_COMPATIBLE}, {}
